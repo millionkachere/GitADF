@@ -1,0 +1,9 @@
+{
+	"name": "adf-sap-0001",
+	"location": "southafricanorth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ceff303c-9d32-4841-ad97-13508651bc6e",
+		"tenantId": "c82f1ae2-1fed-4a67-825d-52c567d2608b"
+	}
+}
