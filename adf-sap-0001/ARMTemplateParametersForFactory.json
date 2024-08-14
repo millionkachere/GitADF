@@ -11,6 +11,15 @@
 		"ls_dls_0001_accountKey": {
 			"value": ""
 		},
+		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
+			"value": "secret002"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://kvsap0001.vault.azure.net/"
+		},
+		"AzureKeyVault2_properties_typeProperties_baseUrl": {
+			"value": "https://kv00001sap.vault.azure.net/"
+		},
 		"ls_dls_0001_properties_typeProperties_url": {
 			"value": "https://dlssap0001.dfs.core.windows.net/"
 		}
