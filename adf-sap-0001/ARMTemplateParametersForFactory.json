@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-sap-0001"
+		},
+		"ls_blod_0001_connectionString": {
+			"value": ""
+		},
+		"ls_dls_0001_accountKey": {
+			"value": ""
+		},
+		"ls_dls_0001_properties_typeProperties_url": {
+			"value": "https://dlssap0001.dfs.core.windows.net/"
+		}
+	}
+}
