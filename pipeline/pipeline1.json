@@ -12,6 +12,8 @@
 				}
 			}
 		],
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2024-08-14T12:52:26Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
