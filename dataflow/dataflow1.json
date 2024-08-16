@@ -1,0 +1,122 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sd_employee_input",
+						"type": "DatasetReference"
+					},
+					"name": "Employees"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_employee1_input",
+						"type": "DatasetReference"
+					},
+					"name": "Employees1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_employee2_input",
+						"type": "DatasetReference"
+					},
+					"name": "Employees2"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_department_input",
+						"type": "DatasetReference"
+					},
+					"name": "Department"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_employee_output",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "sort1"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          EmpId as string,",
+				"          Name as string,",
+				"          country as string,",
+				"          Deptid as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Employees",
+				"source(output(",
+				"          EmpId as string,",
+				"          Name as string,",
+				"          country as string,",
+				"          Deptid as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Employees1",
+				"source(output(",
+				"          EmpId as string,",
+				"          Name as string,",
+				"          country as string,",
+				"          Deptid as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Employees2",
+				"source(output(",
+				"          DeptId as string,",
+				"          DeptName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> Department",
+				"Employees, Employees1, Employees2 union(byName: true)~> union1",
+				"union1 sort(asc(Deptid, true)) ~> sort1",
+				"sort1, Department join(union1@Deptid == Department@DeptId,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 aggregate(groupBy(union1@Deptid,",
+				"          DeptName),",
+				"     TotalNumberDepartment = count(DeptName)) ~> aggregate1",
+				"aggregate1 select(mapColumn(",
+				"          {Department Name} = DeptName,",
+				"          TotalNumberDepartment",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['EmployeesDept.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}
